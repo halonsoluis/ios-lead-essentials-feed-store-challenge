@@ -10,6 +10,13 @@ import Foundation
 
 public class InMemoryFeedStore: FeedStore {
 
+	private struct CacheData {
+		let feed: [LocalFeedImage]
+		let timesstamp: Date
+	}
+
+	private var cache: CacheData?
+
 	public init() {
 
 	}
@@ -20,9 +27,19 @@ public class InMemoryFeedStore: FeedStore {
 
 	public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
 
+		cache = CacheData(feed: feed, timesstamp: timestamp)
+		completion(nil)
 	}
 
 	public func retrieve(completion: @escaping RetrievalCompletion) {
-		completion(.empty)
+		guard let cache = cache else {
+			return completion(.empty)
+		}
+
+		if cache.feed.isEmpty {
+			return completion(.empty)
+		} else {
+			completion(.found(feed: cache.feed, timestamp: cache.timesstamp))
+		}
 	}
 }

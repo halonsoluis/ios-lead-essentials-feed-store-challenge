@@ -22,6 +22,7 @@ public class InMemoryFeedStore: FeedStore {
 	}
 	
 	public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
+		cache = nil
 		completion(nil)
 	}
 

@@ -17,7 +17,7 @@ public class InMemoryFeedStore: FeedStore {
 
 	private static var cache: CacheData?
 
-	public init() {}
+	private init() {}
 
 	public func retrieve(completion: @escaping RetrievalCompletion) {
 		guard let cache = Self.cache else {
@@ -40,5 +40,11 @@ public class InMemoryFeedStore: FeedStore {
 	public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
 		Self.cache = nil
 		completion(nil)
+	}
+}
+
+extension InMemoryFeedStore {
+	public static var shared: FeedStore {
+		InMemoryFeedStore()
 	}
 }

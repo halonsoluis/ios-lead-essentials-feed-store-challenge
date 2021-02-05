@@ -17,20 +17,7 @@ public class InMemoryFeedStore: FeedStore {
 
 	private var cache: CacheData?
 
-	public init() {
-
-	}
-	
-	public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-		cache = nil
-		completion(nil)
-	}
-
-	public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
-
-		cache = CacheData(feed: feed, timesstamp: timestamp)
-		completion(nil)
-	}
+	public init() {}
 
 	public func retrieve(completion: @escaping RetrievalCompletion) {
 		guard let cache = cache else {
@@ -42,5 +29,16 @@ public class InMemoryFeedStore: FeedStore {
 		} else {
 			completion(.found(feed: cache.feed, timestamp: cache.timesstamp))
 		}
+	}
+	
+	public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
+
+		cache = CacheData(feed: feed, timesstamp: timestamp)
+		completion(nil)
+	}
+
+	public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
+		cache = nil
+		completion(nil)
 	}
 }

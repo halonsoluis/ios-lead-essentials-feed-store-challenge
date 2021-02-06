@@ -28,11 +28,7 @@ public class InMemoryFeedStore: FeedStore {
 	
 	public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
 
-		if feed.isEmpty {
-			Self.cache = nil
-		} else {
-			Self.cache = CacheData(feed: feed, timesstamp: timestamp)
-		}
+		Self.cache = CacheData(feed: feed, timesstamp: timestamp)
 		completion(nil)
 	}
 

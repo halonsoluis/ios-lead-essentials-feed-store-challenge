@@ -11,13 +11,13 @@ extension FeedStoreSpecs where Self: XCTestCase {
 		expect(sut, toRetrieve: .empty, file: file, line: line)
 	}
 
-	func assertThatRetrieveDeliversEmptyOnEmptyInsertedCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
+	func assertThatRetrieveDeliversFoundValuesOnEmptyInsertedCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
 		let feed = emptyImageFeed()
 		let timestamp = Date()
 
 		insert((feed, timestamp), to: sut)
 
-		expect(sut, toRetrieve: .empty, file: file, line: line)
+		expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp), file: file, line: line)
 	}
 	
 	func assertThatRetrieveHasNoSideEffectsOnEmptyCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {

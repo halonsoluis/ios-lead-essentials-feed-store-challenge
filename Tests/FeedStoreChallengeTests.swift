@@ -24,12 +24,6 @@ class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 
 		setupEmptyStoreState()
 	}
-
-	override func tearDown() {
-		super.tearDown()
-
-		undoStoreSideEffects()
-	}
 	
 	func test_retrieve_deliversEmptyOnEmptyCache() {
 		let sut = makeSUT()
@@ -111,24 +105,30 @@ class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 	
 	// - MARK: Helpers
 	
-	private func makeSUT() -> FeedStore {
-		InMemoryFeedStore.shared
+	private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> FeedStore {
+		let sut = InMemoryFeedStore.shared
+
+		checkForMemoryLeaks(for: sut as AnyObject)
+
+		return sut
 	}
 
 	private func setupEmptyStoreState() {
-		let exp = expectation(description: "Cache is cleaned")
-		makeSUT().deleteCachedFeed { (_) in
+		undoStoreSideEffects(for: makeSUT())
+	}
+
+	private func undoStoreSideEffects(for sut: FeedStore) {
+		let exp = expectation(description: "Waiting for Cache to be cleaned")
+		sut.deleteCachedFeed { (_) in
 			exp.fulfill()
 		}
 		wait(for: [exp], timeout: 1.0)
 	}
 
-	private func undoStoreSideEffects() {
-		let exp = expectation(description: "Cache is cleaned")
-		makeSUT().deleteCachedFeed { (_) in
-			exp.fulfill()
+	private func checkForMemoryLeaks(for sut: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
+		addTeardownBlock { [weak sut] in
+			XCTAssertNil(sut, "Potential memory leak", file: file, line: line)
 		}
-		wait(for: [exp], timeout: 1.0)
 	}
 }
 

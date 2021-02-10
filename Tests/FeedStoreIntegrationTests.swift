@@ -19,6 +19,12 @@ class FeedStoreIntegrationTests: XCTestCase {
 		
 		setupEmptyStoreState()
 	}
+
+	override func tearDown() {
+		super.tearDown()
+
+		undoStoreSideEffects()
+	}
 	
 	func test_retrieve_deliversEmptyOnEmptyCache() {
 		let sut = makeSUT()
@@ -68,7 +74,7 @@ class FeedStoreIntegrationTests: XCTestCase {
 	private func makeSUT() -> FeedStore {
 		let sut = InMemoryFeedStore.shared
 
-		checkForMemoryLeaks(for: sut as AnyObject)
+		//checkForMemoryLeaks(for: sut)
 
 		return sut
 	}

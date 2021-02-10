@@ -106,20 +106,25 @@ class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 	// - MARK: Helpers
 	
 	private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> FeedStore {
-		let sut = InMemoryFeedStore.shared
+		let sut = makeSUT_withoutSideEffects()
 
-		//checkForMemoryLeaks(for: sut)
+		checkForMemoryLeaks(for: sut)
 
 		return sut
 	}
 
 	private func setupEmptyStoreState() {
-		deleteCache(from: makeSUT())
+		deleteCache(from: makeSUT_withoutSideEffects())
 	}
 
 	private func undoStoreSideEffects() {
-		deleteCache(from: makeSUT())
+		deleteCache(from: makeSUT_withoutSideEffects())
 	}
+
+	private func makeSUT_withoutSideEffects() -> InMemoryFeedStore {
+		return InMemoryFeedStore()
+	}
+
 }
 
 //  ***********************

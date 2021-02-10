@@ -72,7 +72,7 @@ class FeedStoreIntegrationTests: XCTestCase {
 	// - MARK: Helpers
 	
 	private func makeSUT() -> FeedStore {
-		let sut = InMemoryFeedStore()
+		let sut = InMemoryFeedStore.shared
 
 		//checkForMemoryLeaks(for: sut)
 

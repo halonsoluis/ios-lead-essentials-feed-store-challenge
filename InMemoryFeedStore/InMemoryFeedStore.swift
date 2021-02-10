@@ -23,7 +23,7 @@ public class InMemoryFeedStore: FeedStore {
 		attributes: .concurrent
 	)
 
-	private init() {}
+	public init() {}
 
 	public func retrieve(completion: @escaping RetrievalCompletion) {
 		queue.async {
@@ -46,11 +46,5 @@ public class InMemoryFeedStore: FeedStore {
 			Self.cache = nil
 			completion(nil)
 		}
-	}
-}
-
-extension InMemoryFeedStore {
-	public static var shared: InMemoryFeedStore {
-		InMemoryFeedStore()
 	}
 }

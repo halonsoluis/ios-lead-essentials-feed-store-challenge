@@ -114,15 +114,11 @@ class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 	}
 
 	private func setupEmptyStoreState() {
-		undoStoreSideEffects(for: makeSUT())
+		deleteCache(from: makeSUT())
 	}
 
-	private func undoStoreSideEffects(for sut: FeedStore) {
-		let exp = expectation(description: "Waiting for Cache to be cleaned")
-		sut.deleteCachedFeed { (_) in
-			exp.fulfill()
-		}
-		wait(for: [exp], timeout: 1.0)
+	private func undoStoreSideEffects() {
+		deleteCache(from: makeSUT())
 	}
 }
 

@@ -46,7 +46,7 @@ public class InMemoryFeedStore: FeedStore {
 }
 
 extension InMemoryFeedStore {
-	public static var shared: FeedStore {
+	public static var shared: InMemoryFeedStore {
 		InMemoryFeedStore()
 	}
 }

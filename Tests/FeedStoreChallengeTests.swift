@@ -124,12 +124,6 @@ class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 		}
 		wait(for: [exp], timeout: 1.0)
 	}
-
-	private func checkForMemoryLeaks(for sut: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
-		addTeardownBlock { [weak sut] in
-			XCTAssertNil(sut, "Potential memory leak", file: file, line: line)
-		}
-	}
 }
 
 //  ***********************

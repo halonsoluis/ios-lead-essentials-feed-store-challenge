@@ -17,7 +17,11 @@ public class InMemoryFeedStore: FeedStore {
 
 	private static var cache: CacheData?
 
-	private let queue = DispatchQueue(label: "\(InMemoryFeedStore.self)Queue", qos: .userInitiated, attributes: .concurrent)
+	private let queue = DispatchQueue(
+		label: "\(InMemoryFeedStore.self)Queue",
+		qos: .userInitiated,
+		attributes: .concurrent
+	)
 
 	private init() {}
 

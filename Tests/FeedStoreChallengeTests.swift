@@ -102,6 +102,10 @@ class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 
 		assertThatSideEffectsRunSerially(on: sut)
 	}
+
+	func test_stores_shareSameReference() {
+		XCTAssertSame(firtstReference: InMemoryFeedStore.shared, secondReference: InMemoryFeedStore.shared)
+	}
 	
 	// - MARK: Helpers
 	

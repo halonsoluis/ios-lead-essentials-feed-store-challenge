@@ -108,8 +108,6 @@ class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 	private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> FeedStore {
 		let sut = makeSUT_withoutSideEffects()
 
-		//checkForMemoryLeaks(for: sut)
-
 		return sut
 	}
 

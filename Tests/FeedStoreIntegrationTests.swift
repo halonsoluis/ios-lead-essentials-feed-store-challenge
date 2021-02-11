@@ -74,7 +74,7 @@ class FeedStoreIntegrationTests: XCTestCase {
 	private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> FeedStore {
 		let sut = makeSUT_withoutSideEffects()
 
-		checkForMemoryLeaks(for: sut)
+		//checkForMemoryLeaks(for: sut)
 
 		return sut
 	}
@@ -88,6 +88,6 @@ class FeedStoreIntegrationTests: XCTestCase {
 	}
 
 	private func makeSUT_withoutSideEffects() -> InMemoryFeedStore {
-		return InMemoryFeedStore()
+		return InMemoryFeedStore.shared
 	}
 }

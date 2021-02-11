@@ -9,7 +9,9 @@
 import Foundation
 
 public class InMemoryFeedStore: FeedStore {
-	private static var cache: CacheData?
+	private var cache: CacheData?
+
+	public static let shared: InMemoryFeedStore = InMemoryFeedStore()
 
 	private let queue = DispatchQueue(
 		label: "\(InMemoryFeedStore.self)Queue",
@@ -17,11 +19,11 @@ public class InMemoryFeedStore: FeedStore {
 		attributes: .concurrent
 	)
 
-	public init() {}
+	private init() {}
 
 	public func retrieve(completion: @escaping RetrievalCompletion) {
-		queue.async {
-			guard let cache = Self.cache else {
+		queue.async { [weak self] in
+			guard let cache = self?.cache else {
 				return completion(.empty)
 			}
 			completion(.found(feed: cache.feed, timestamp: cache.timesstamp))
@@ -29,15 +31,15 @@ public class InMemoryFeedStore: FeedStore {
 	}
 	
 	public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
-		queue.async(flags: .barrier) {
-			Self.cache = CacheData(feed: feed, timesstamp: timestamp)
+		queue.async(flags: .barrier) { [weak self] in
+			self?.cache = CacheData(feed: feed, timesstamp: timestamp)
 			completion(nil)
 		}
 	}
 
 	public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-		queue.async(flags: .barrier) {
-			Self.cache = nil
+		queue.async(flags: .barrier) { [weak self] in
+			self?.cache = nil
 			completion(nil)
 		}
 	}

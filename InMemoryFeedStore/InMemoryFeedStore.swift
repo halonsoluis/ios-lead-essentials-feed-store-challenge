@@ -11,7 +11,7 @@ import Foundation
 public class InMemoryFeedStore: FeedStore {
 	private var cache: CacheData?
 
-	public static let shared: InMemoryFeedStore = InMemoryFeedStore()
+	public static let shared = InMemoryFeedStore()
 
 	private let queue = DispatchQueue(
 		label: "\(InMemoryFeedStore.self)Queue",
